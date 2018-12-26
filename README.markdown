@@ -5,5 +5,5 @@ Conserve is a Common Lisp library for reading and writing [RFC
 
 * **License:** MIT/X11
 * **Documentation:** <https://sjl.bitbucket.io/conserve/>
-* **Mercurial:** <http://bitbucket.org/sjl/conserve/>
-* **Git:** <http://github.com/sjl/conserve/>
+* **Mercurial:** <https://bitbucket.org/sjl/conserve/>
+* **Git:** <https://github.com/sjl/conserve/>
