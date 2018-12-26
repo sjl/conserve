@@ -1,33 +1,30 @@
-(asdf:defsystem :trivial-csv
+(asdf:defsystem :conserve
   :description "Yet Another CSV Library for Common Lisp."
 
   :author "Steve Losh <steve@stevelosh.com>"
-  :homepage "https://sjl.bitbucket.io/trivial-csv/"
+  :homepage "https://sjl.bitbucket.io/conserve/"
   :license "MIT/X11"
   :version "0.0.1"
 
   :depends-on ()
 
-  :in-order-to ((asdf:test-op (asdf:test-op :trivial-csv/test)))
+  :in-order-to ((asdf:test-op (asdf:test-op :conserve/test)))
 
   :serial t
-  :components ((:module "vendor" :serial t
-                :components ((:file "quickutils-package")
-                             (:file "quickutils")))
-               (:file "package")
+  :components ((:file "package")
                (:module "src" :serial t
                 :components
                 ((:file "main")))))
 
-(asdf:defsystem :trivial-csv/test
+(asdf:defsystem :conserve/test
   :description
-  "Test suite for trivial-csv."
+  "Test suite for conserve."
 
   :author "Steve Losh <steve@stevelosh.com>"
 
   :license "MIT/X11"
 
-  :depends-on (:trivial-csv :1am)
+  :depends-on (:conserve :1am)
 
   :serial t
   :components ((:file "package.test")
@@ -35,5 +32,5 @@
                 :serial t
                 :components ((:file "tests"))))
   :perform (asdf:test-op (op system)
-             (funcall (read-from-string "trivial-csv/test:run-tests"))))
+             (funcall (read-from-string "conserve/test:run-tests"))))
 

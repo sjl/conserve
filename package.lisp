@@ -1,4 +1,4 @@
-(defpackage :trivial-csv
+(defpackage :conserve
   (:use :cl)
   (:export
     :read-row

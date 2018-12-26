@@ -1,4 +1,4 @@
-(in-package :trivial-csv)
+(in-package :conserve)
 
 ;;;; Configuration ------------------------------------------------------------
 (defparameter *delimiter* #\,)

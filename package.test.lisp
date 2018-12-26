@@ -1,3 +1,3 @@
-(defpackage :trivial-csv/test
-  (:use :cl :1am :trivial-csv)
+(defpackage :conserve/test
+  (:use :cl :1am :conserve)
   (:export :run-tests))
