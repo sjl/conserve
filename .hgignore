@@ -1,7 +1,5 @@
 syntax: glob
 lisp.prof
 scratch.lisp
-*.log
 docs/build
-images
-test/data/fuzz.*
+test/large*
