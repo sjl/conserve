@@ -12,8 +12,7 @@
 
   :serial t
   :components ((:file "package")
-               (:module "src" :serial t
-                :components
+               (:module "src" :serial t :components
                 ((:file "main")))))
 
 (asdf:defsystem :conserve/test
@@ -28,9 +27,8 @@
 
   :serial t
   :components ((:file "package.test")
-               (:module "test"
-                :serial t
-                :components ((:file "tests"))))
+               (:module "test" :serial t :components
+                ((:file "tests"))))
   :perform (asdf:test-op (op system)
              (funcall (read-from-string "conserve/test:run-tests"))))
 

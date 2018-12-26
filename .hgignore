@@ -2,4 +2,4 @@ syntax: glob
 lisp.prof
 scratch.lisp
 docs/build
-test/large*
+test/data/large*

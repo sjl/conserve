@@ -50,7 +50,7 @@
   (setf *data* (random-data)))
 
 (defun write-file-this ()
-  (with-open-file (s "test/large-this.csv"
+  (with-open-file (s "test/data/large-this.csv"
                      :direction :output
                      :if-exists :supersede)
     (time
@@ -58,7 +58,7 @@
             (write-rows *data* s)))))
 
 (defun write-file-cl-csv ()
-  (with-open-file (s "test/large-cl-csv.csv"
+  (with-open-file (s "test/data/large-cl-csv.csv"
                      :direction :output
                      :if-exists :supersede)
     (time (loop :repeat *data-repetitions* :do
@@ -66,7 +66,7 @@
                                   :stream s
                                   :newline (string #\newline))))))
 (defun write-file-fare ()
-  (with-open-file (s "test/large-fare.csv"
+  (with-open-file (s "test/data/large-fare.csv"
                      :direction :output
                      :if-exists :supersede)
     (fare-csv:with-rfc4180-csv-syntax ()
@@ -91,7 +91,7 @@
 
 
 (defun read-file-this ()
-  (with-open-file (s "test/large-this.csv")
+  (with-open-file (s "test/data/large-this.csv")
     (time (loop
             :with data = *data*
             :for row = (read-row s nil :eof)
@@ -103,7 +103,7 @@
             :do (assert (equal expected-row row))))))
 
 (defun read-file-cl-csv ()
-  (with-open-file (s "test/large-cl-csv.csv")
+  (with-open-file (s "test/data/large-cl-csv.csv")
     (let ((result 0))
       (time (handler-case
                 (loop
@@ -129,7 +129,7 @@
 ;; '() over '("").  Why would you sell out the marginally-useful case (a 1-col
 ;; CSV) in favor of the utterly useless case (a 0-col CSV)?
 (defun read-file-fare ()
-  (with-open-file (s "test/large-fare.csv")
+  (with-open-file (s "test/data/large-fare.csv")
     (fare-csv:with-rfc4180-csv-syntax ()
       (time (loop
               :with data = *data*
