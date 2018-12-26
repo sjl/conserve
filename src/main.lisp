@@ -39,22 +39,22 @@
         :do (write-char char result)))
 
 (defun read-field (stream delimiter result)
-  "Read and return a single field from `stream` into `result`."
-  (let* ((field (case (peek-char nil stream nil :eof)
-                  (#\" (read-quoted-field stream delimiter result) t)
-                  (#\newline (read-char stream) nil)
-                  (:eof nil)
-                  (t (read-unquoted-field stream delimiter result) t)))
-         (done (cond
-                 ((null field) t) ; empty field at the end
-                 ((read-char-if delimiter stream nil) nil) ; normal field
-                 ((read-char-if #\newline stream nil #\newline) t) ; last field
-                 (t (error "Bad data after field ~S: ~S"
-                           field (peek-char nil stream))))))
-    (values (if field
-              (get-output-stream-string result)
-              "")
-            done)))
+  "Read and return a single field from `stream` using `result`.
+
+  Returns two values: a string of the field and a boolean denoting whether
+  we're done reading this row.
+
+  "
+  (case (peek-char nil stream nil :eof)
+    (#\" (read-quoted-field stream delimiter result))
+    ((#\newline :eof) nil)
+    (t (read-unquoted-field stream delimiter result)))
+  (let ((next (peek-char nil stream nil :eof)))
+    (values (get-output-stream-string result)
+            (cond ((eql next :eof) t)
+                  ((eql next #\newline) (read-char stream) t)
+                  ((eql next delimiter) (read-char stream) nil)
+                  (t (error "Bad data after field: ~S" next))))))
 
 (defun read-row% (stream delimiter eof-error-p eof-value)
   (if (eql :eof (peek-char nil stream eof-error-p :eof))

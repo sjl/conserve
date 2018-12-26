@@ -81,9 +81,9 @@
   #+sbcl (sb-ext:gc :full t)
   (write-file-this)
 
-  (write-line "Benchmarking cl-csv (writing).")
-  #+sbcl (sb-ext:gc :full t)
-  (write-file-cl-csv)
+  ;; (write-line "Benchmarking cl-csv (writing).")
+  ;; #+sbcl (sb-ext:gc :full t)
+  ;; (write-file-cl-csv)
 
   (write-line "Benchmarking fare-csv (writing).")
   #+sbcl (sb-ext:gc :full t)
@@ -149,9 +149,9 @@
   #+sbcl (sb-ext:gc :full t)
   (format t "Read ~D rows.~2%" (read-file-this))
 
-  (write-line "Benchmarking cl-csv (reading).")
-  #+sbcl (sb-ext:gc :full t)
-  (format t "Read ~D rows.~2%" (read-file-cl-csv))
+  ;; (write-line "Benchmarking cl-csv (reading).")
+  ;; #+sbcl (sb-ext:gc :full t)
+  ;; (format t "Read ~D rows.~2%" (read-file-cl-csv))
 
   (write-line "Benchmarking fare-csv (reading).")
   #+sbcl (sb-ext:gc :full t)
