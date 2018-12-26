@@ -1,4 +1,5 @@
-`trivial-csv` is a Common Lisp library for reading and writing RFC4180 CSV data.
+Conserve is a Common Lisp library for reading and writing [RFC
+4180](https://tools.ietf.org/html/rfc4180) CSV data.
 
 * **License:** MIT/X11
 * **Documentation:** <https://sjl.bitbucket.io/trivial-csv/>
