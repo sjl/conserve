@@ -2,7 +2,7 @@
 
 (defparameter *field-length* 50)
 (defparameter *row-length* 50)
-(defparameter *data-rows* 10000)
+(defparameter *data-rows* 1000)
 (defparameter *data-repetitions* 10)
 
 (defun random-char (string)

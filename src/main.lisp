@@ -12,12 +12,11 @@
 ;;; than having a fresh one per field.  It's a little more tedious but it's
 ;;; *significantly* less consing (e.g. 500mb versus 1.5gb).
 
-(defun read-char-if (char stream &optional (eof-error-p t) eof-value)
-  "If the next character in `stream` is `char`, read and return it.  Otherwise, return `nil`."
-  (cond
-    ((eql char (peek-char nil stream eof-error-p nil)) (read-char stream))
-    ((eql char eof-value) char)
-    (t nil)))
+(defun read-char-if (char stream)
+  "If the next character in `stream` is `char`, read and return it.  Otherwise return `nil`."
+  (if (eql char (peek-char nil stream nil nil))
+    (read-char stream)
+    nil))
 
 (defun read-unquoted-field (stream delimiter result)
   "Read an unquoted field (but not the ending field delimiter) from `stream` into `result`."
@@ -35,7 +34,7 @@
   (read-char stream) ; chomp initial quote
   (loop :for char = (read-char stream)
         :until (and (char= #\" char)
-                    (not (read-char-if #\" stream nil)))
+                    (not (read-char-if #\" stream)))
         :do (write-char char result)))
 
 (defun read-field (stream delimiter result)
