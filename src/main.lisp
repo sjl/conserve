@@ -132,12 +132,18 @@
 
 (defun write-row (row &optional (stream *standard-output*))
   "Write `row` to `stream` as CSV data."
+  (check-type stream stream)
+  (assert (output-stream-p stream) (stream)
+          "Stream ~S is not an output stream." stream)
   (check-delimiter)
   (write-row% row stream *delimiter*)
   (values))
 
 (defun write-rows (rows &optional (stream *standard-output*))
   "Write `rows` to `stream` as CSV data."
+  (check-type stream stream)
+  (assert (output-stream-p stream) (stream)
+          "Stream ~S is not an output stream." stream)
   (check-delimiter)
   (loop :with delimiter = *delimiter*
         :for row :in rows
