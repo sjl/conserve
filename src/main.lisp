@@ -100,8 +100,14 @@
 
 
 ;;;; API ----------------------------------------------------------------------
-(defun read-row (&optional (stream *standard-input*) (eof-error-p t) eof-value)
-  "Read and return a row of fields from the CSV data in `stream`.
+(defun ensure-input-stream (stream-or-string)
+  (etypecase stream-or-string
+    (stream stream-or-string)
+    (string (make-string-input-stream stream-or-string))))
+
+(defun read-row
+    (&optional (stream-or-string *standard-input*) (eof-error-p t) eof-value)
+  "Read and return a row of fields from the CSV data in `stream-or-string`.
 
   The result will be completely fresh.
 
@@ -109,43 +115,72 @@
   signaled unless `eof-error-p` is false, in which case `eof-value` is returned.
 
   "
-  (check-type stream stream)
-  (assert (input-stream-p stream) (stream)
-          "Stream ~S is not an input stream." stream)
   (check-delimiter)
-  (read-row% stream *delimiter* eof-error-p eof-value))
+  (let ((stream (ensure-input-stream stream-or-string)))
+    (assert (input-stream-p stream) (stream)
+      "Stream ~S is not an input stream." stream)
+    (read-row% stream *delimiter* eof-error-p eof-value)))
 
-(defun read-rows (&optional (stream *standard-input*))
-  "Read and return all CSV rows from the CSV data in `stream`.
+(defun read-rows (&optional (stream-or-string *standard-input*))
+  "Read and return all CSV rows from the CSV data in `stream-or-string`.
 
   The result will be completely fresh.
 
   "
-  (check-type stream stream)
-  (assert (input-stream-p stream) (stream)
-          "Stream ~S is not an input stream." stream)
   (check-delimiter)
-  (loop :with delimiter = *delimiter*
-        :for row = (read-row% stream delimiter nil :eof)
-        :until (eql row :eof)
-        :collect row))
+  (let ((stream (ensure-input-stream stream-or-string)))
+    (assert (input-stream-p stream) ()
+      "Stream ~S is not an input stream." stream)
+    (loop :with delimiter = *delimiter*
+          :for row = (read-row% stream delimiter nil :eof)
+          :until (eql row :eof)
+          :collect row)))
+
+
+(defmacro with-output-to-stream-or-string
+    ((symbol &optional (stream-or-null symbol)) &body body)
+  "Bind `symbol` to an output stream, run `body`, and return appropriately.
+
+  If `stream-or-null` is a stream, `symbol` will be bound to it and nothing will
+  be returned.
+
+  If `stream-or-null` is `nil`, `symbol` will be bound to a string output stream
+  and the resulting string will be returned.
+
+  "
+  (let ((want-string (gensym "WANT-STRING")))
+    `(let* ((,symbol ,stream-or-null)
+            (,want-string (null ,symbol))
+            (,symbol (or ,symbol (make-string-output-stream))))
+       ,@body
+       (if ,want-string
+         (get-output-stream-string ,symbol)
+         (values)))))
 
 (defun write-row (row &optional (stream *standard-output*))
-  "Write `row` to `stream` as CSV data."
-  (check-type stream stream)
-  (assert (output-stream-p stream) (stream)
-          "Stream ~S is not an output stream." stream)
+  "Write `row` to `stream` as CSV data.
+
+  If `stream` is `nil`, the data will be returned as a fresh string instead.
+
+  "
   (check-delimiter)
-  (write-row% row stream *delimiter*)
-  (values))
+  (check-type stream (or null stream))
+  (with-output-to-stream-or-string (stream)
+    (assert (output-stream-p stream) (stream)
+      "Stream ~S is not an output stream." stream)
+    (write-row% row stream *delimiter*)))
 
 (defun write-rows (rows &optional (stream *standard-output*))
-  "Write `rows` to `stream` as CSV data."
-  (check-type stream stream)
-  (assert (output-stream-p stream) (stream)
-          "Stream ~S is not an output stream." stream)
-  (check-delimiter)
-  (loop :with delimiter = *delimiter*
-        :for row :in rows
-        :do (write-row% row stream delimiter)))
+  "Write `rows` to `stream` as CSV data.
 
+  If `stream` is `nil`, the data will be returned as a fresh string instead.
+
+  "
+  (check-delimiter)
+  (check-type stream (or null stream))
+  (with-output-to-stream-or-string (stream)
+    (assert (output-stream-p stream) (stream)
+      "Stream ~S is not an output stream." stream)
+    (loop :with delimiter = *delimiter*
+          :for row :in rows
+          :do (write-row% row stream delimiter))))

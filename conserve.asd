@@ -23,7 +23,7 @@
 
   :license "MIT/X11"
 
-  :depends-on (:conserve :1am)
+  :depends-on (:conserve :1am :cl-csv :fare-csv)
 
   :serial t
   :components ((:file "package.test")
