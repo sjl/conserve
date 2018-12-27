@@ -2,8 +2,9 @@
 
 
 ;;;; Utils --------------------------------------------------------------------
-(defun symb (&rest args)
-  (intern (apply #'concatenate 'string (mapcar #'princ-to-string args))))
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun symb (&rest args)
+    (intern (apply #'concatenate 'string (mapcar #'princ-to-string args)))))
 
 (defmacro define-test (name &body body)
   `(test ,(symb 'test- name)
@@ -36,7 +37,7 @@
 
 (defun cl-csv-read-string (string)
   (cl-csv:read-csv string
-                   :newline (string #\newline)
+                   :newline #\newline
                    :trim-outer-whitespace nil))
 
 
