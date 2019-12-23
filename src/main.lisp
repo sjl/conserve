@@ -109,7 +109,7 @@
     (&optional (stream-or-string *standard-input*) (eof-error-p t) eof-value)
   "Read and return a row of fields from the CSV data in `stream-or-string`.
 
-  The result will be completely fresh.
+  The result will be a fresh list.
 
   If the end of file for the stream is encountered immediately, an error is
   signaled unless `eof-error-p` is false, in which case `eof-value` is returned.
@@ -124,7 +124,7 @@
 (defun read-rows (&optional (stream-or-string *standard-input*))
   "Read and return all CSV rows from the CSV data in `stream-or-string`.
 
-  The result will be completely fresh.
+  The result will be a completely fresh list of lists.
 
   "
   (check-delimiter)
@@ -160,6 +160,8 @@
 (defun write-row (row &optional (stream *standard-output*))
   "Write `row` to `stream` as CSV data.
 
+  `row` must be a list of strings.
+
   If `stream` is `nil`, the data will be returned as a fresh string instead.
 
   "
@@ -172,6 +174,9 @@
 
 (defun write-rows (rows &optional (stream *standard-output*))
   "Write `rows` to `stream` as CSV data.
+
+  `rows` must be a list of lists of strings.  The consequences are undefined if
+  all the rows do not have the same number of fields.
 
   If `stream` is `nil`, the data will be returned as a fresh string instead.
 

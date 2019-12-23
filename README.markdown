@@ -7,6 +7,6 @@ The test suite passes in SBCL, CCL, ECL, ABCL, Allegro, and LispWorks on Ubuntu
 18.04.
 
 * **License:** MIT/X11
-* **Documentation:** <https://sjl.bitbucket.io/conserve/>
-* **Mercurial:** <https://bitbucket.org/sjl/conserve/>
+* **Documentation:** <https://docs.stevelosh.com/conserve/>
+* **Mercurial:** <https://hg.sr.ht/~sjl/conserve/>
 * **Git:** <https://github.com/sjl/conserve/>

@@ -2,7 +2,7 @@
   :description "Yet Another CSV Library for Common Lisp."
 
   :author "Steve Losh <steve@stevelosh.com>"
-  :homepage "https://sjl.bitbucket.io/conserve/"
+  :homepage "https://docs.stevelosh.com/conserve/"
   :license "MIT/X11"
   :version "0.0.1"
 
@@ -11,9 +11,9 @@
   :in-order-to ((asdf:test-op (asdf:test-op :conserve/test)))
 
   :serial t
-  :components ((:file "package")
-               (:module "src" :serial t :components
-                ((:file "main")))))
+  :components ((:module "src" :serial t :components
+                ((:file "package")
+                 (:file "main")))))
 
 (asdf:defsystem :conserve/test
   :description
@@ -26,9 +26,10 @@
   :depends-on (:conserve :1am :cl-csv :fare-csv)
 
   :serial t
-  :components ((:file "package.test")
-               (:module "test" :serial t :components
-                ((:file "tests"))))
+  :components ((:module "test" :serial t :components
+                ((:file "package.test")
+                 (:file "tests"))))
+
   :perform (asdf:test-op (op system)
              (funcall (read-from-string "conserve/test:run-tests"))))
 
