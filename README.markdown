@@ -8,5 +8,5 @@ The test suite passes in SBCL, CCL, ECL, ABCL, Allegro, and LispWorks on Ubuntu
 
 * **License:** MIT/X11
 * **Documentation:** <https://docs.stevelosh.com/conserve/>
-* **Mercurial:** <https://hg.sr.ht/~sjl/conserve/>
+* **Mercurial:** <https://hg.stevelosh.com/conserve/>
 * **Git:** <https://github.com/sjl/conserve/>
