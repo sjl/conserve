@@ -271,16 +271,17 @@
 
 
 (defun read-file/conserve ()
-  (with-open-file (s "test/data/large-conserve.csv")
-    (if *verify-large-file-reads*
-      (loop
-        :for original :in *data*
-        :for row = (conserve:read-row s nil :eof)
-        :until (eql :eof row)
-        :do (assert (equal original row)))
-      (loop
-        :for row = (conserve:read-row s nil :eof)
-        :until (eql :eof row)))))
+  (losh:profile
+    (with-open-file (s "test/data/large-conserve.csv")
+      (if *verify-large-file-reads*
+        (loop
+          :for original :in *data*
+          :for row = (conserve:read-row s nil :eof)
+          :until (eql :eof row)
+          :do (assert (equal original row)))
+        (loop
+          :for row = (conserve:read-row s nil :eof)
+          :until (eql :eof row))))))
 
 (defun read-file/fare-csv ()
   (with-open-file (s "test/data/large-fare-csv.csv")

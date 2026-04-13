@@ -10,31 +10,31 @@ test: test-sbcl test-ccl test-ecl test-abcl
 
 test-sbcl:
 	$(heading_printer) computer 'SBCL'
-	sbcl --load test/run.lisp
+	time sbcl --load test/run.lisp
 
 test-ccl:
 	$(heading_printer) slant 'CCL'
-	ccl --load test/run.lisp
+	time ccl --load test/run.lisp
 
 test-ecl:
 	$(heading_printer) roman 'ECL'
-	ecl --load test/run.lisp
+	time ecl --load test/run.lisp
 
 test-abcl:
 	$(heading_printer) broadway 'ABCL'
-	abcl --load test/run.lisp
+	time abcl --load test/run.lisp
 
 # Documentation ---------------------------------------------------------------
-# $(apidocs): $(sourcefiles)
-# 	sbcl --noinform --load docs/api.lisp  --eval '(quit)'
+$(apidocs): $(sourcefiles)
+	sbcl --noinform --load docs/api.lisp  --eval '(quit)'
 
-# docs/build/index.html: $(docfiles) $(apidocs) docs/title
-# 	cd docs && ~/.virtualenvs/d/bin/d
+docs/build/index.html: $(docfiles) $(apidocs) docs/title
+	cd docs && ~/bin/venvs/tools/bin/d
 
-# docs: docs/build/index.html
+docs: docs/build/index.html
 
-# pubdocs: docs
-# 	hg -R ~/src/docs.stevelosh.com pull -u
-# 	rsync --delete -a ./docs/build/ ~/src/docs.stevelosh.com/conserve
-# 	hg -R ~/src/docs.stevelosh.com commit -Am 'conserve: Update site.'
-# 	hg -R ~/src/docs.stevelosh.com push
+pubdocs: docs
+	hg -R ~/src/docs.stevelosh.com pull -u
+	rsync --delete -a ./docs/build/ ~/src/docs.stevelosh.com/conserve
+	hg -R ~/src/docs.stevelosh.com commit -Am 'conserve: Update site.'
+	hg -R ~/src/docs.stevelosh.com push

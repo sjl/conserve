@@ -27,7 +27,7 @@
 
   :serial t
   :components ((:module "test" :serial t :components
-                ((:file "package.test")
+                ((:file "package")
                  (:file "tests"))))
 
   :perform (asdf:test-op (op system)
